@@ -1,10 +1,17 @@
-# Maven
-target/
-*.log
-
 # Angular
 myapp-ng/ng/node_modules/
 myapp-ng/ng/dist/
+myapp-ng/ng/.angular/
+myapp-ng/ng/.cache/
+myapp-ng/ng/.vite/
+myapp-ng/ng/.output/
+myapp-ng/ng/.DS_Store
+
+# Logs
+*.log
+
+# Maven
+target/
 
 # IDE
 .classpath
