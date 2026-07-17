@@ -1,0 +1,18 @@
+# Maven
+target/
+*.log
+
+# Angular
+myapp-ng/ng/node_modules/
+myapp-ng/ng/dist/
+
+# IDE
+.classpath
+.project
+.settings/
+.idea/
+.vscode/
+
+# OS
+Thumbs.db
+.DS_Store
