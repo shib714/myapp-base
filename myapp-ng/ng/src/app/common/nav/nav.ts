@@ -1,5 +1,5 @@
 import { TitleCasePipe } from '@angular/common';
-import { Component, DOCUMENT, inject } from '@angular/core';
+import { Component, DOCUMENT, inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
@@ -14,7 +14,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 
 @Component({
   selector: 'app-nav',
-  imports: [RouterLink,
+  imports: [
+    RouterLink,
     RouterOutlet,
     MatToolbarModule,
     MatButtonModule,
@@ -22,19 +23,20 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatSidenavModule,
     MatListModule,
     MatMenuModule,
-    TitleCasePipe, 
-    MatBadgeModule],
+    TitleCasePipe,
+    MatBadgeModule,
+  ],
   templateUrl: './nav.html',
-  styleUrl: './nav.scss'
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './nav.scss',
 })
 export class Nav {
   private document = inject(DOCUMENT);
   protected themeService = inject(Theme);
-  protected cartService = inject(CartService);  
+  protected cartService = inject(CartService);
   cartItems = this.cartService.cartItems;
 
   onThemeChange(event: MatSlideToggleChange) {
     this.document.body.classList.toggle('dark');
   }
-
 }

@@ -1,23 +1,27 @@
-import { Component, computed, inject, input, Input, signal } from '@angular/core';
-import { CommonModule, } from '@angular/common';
+import {
+  Component,
+  computed,
+  inject,
+  input,
+  Input,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { CartItem, CartService } from '../cart.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-
 @Component({
   selector: 'cart-item',
-  imports: [CommonModule,
-    MatButtonModule,
-    MatIconModule
-  ],
+  imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './cart-item.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./cart-item.component.scss'],
 })
 export class CartItemComponent {
-
   cartService = inject(CartService);
-  // Use a setter to emit whenever a new item is set  
+  // Use a setter to emit whenever a new item is set
   // _item!: CartItem;
   // get item(): CartItem {
   //   return this._item;
@@ -38,15 +42,14 @@ export class CartItemComponent {
   // When the item changes, recalculate the extended price
   //exPrice = computed(() =>
   //  this.cartItem().quantity * Number(this.cartItem().product.price));
-    // Sanitize the price into a number
- price = computed(() => {
+  // Sanitize the price into a number
+  price = computed(() => {
     const cost = this.item().product.price;
     const num = Number(cost);
     return isNaN(num) ? 0 : num;
   });
   // When the item changes, recalculate the extended price
   exPrice = computed(() => this.item().quantity * this.price());
-
 
   // onSelectionChange(quantity: number): void {
   //   // Update the quantity in the item
@@ -60,8 +63,7 @@ export class CartItemComponent {
   incrementItem(): void {
     this.cartService.updateInCart(this.item(), this.item().quantity + 1);
   }
-  decrementItem(): void {  
+  decrementItem(): void {
     this.cartService.updateInCart(this.item(), this.item().quantity - 1);
   }
-
 }

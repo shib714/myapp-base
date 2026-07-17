@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -23,21 +23,23 @@ import { VehicleDetailDialog } from '../vehicle-detail/vehicle-detail-dialog';
     MatDividerModule,
   ],
   template: `
-  <h1 class="page-title">{{pageTitle}}</h1>
-  <mat-list>
+    <h1 class="page-title">{{ pageTitle }}</h1>
+    <mat-list>
       @for (vehicle of vehicles(); track vehicle.name) {
-        <mat-list-item (click)="onSelected(vehicle.name)" 
-            [class.active]="vehicle.name === selectedVehicle()?.name">
-            {{vehicle.name}}
+        <mat-list-item
+          (click)="onSelected(vehicle.name)"
+          [class.active]="vehicle.name === selectedVehicle()?.name"
+        >
+          {{ vehicle.name }}
         </mat-list-item>
         <mat-divider></mat-divider>
       }
-
-  </mat-list>
-  @if (errorMessage()) {
-    <div class="alert alert-danger">{{ errorMessage() }}</div>
-  }
-`,
+    </mat-list>
+    @if (errorMessage()) {
+      <div class="alert alert-danger">{{ errorMessage() }}</div>
+    }
+  `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styles: `
     .active {
       background-color: rgba(0, 0, 0, 0.04);
@@ -59,7 +61,7 @@ import { VehicleDetailDialog } from '../vehicle-detail/vehicle-detail-dialog';
 })
 export class VehicleList {
   pageTitle = 'Swapi Vehicles';
-  
+
   private vehicleService = inject(VehicleService);
   private dialog = inject(MatDialog);
 

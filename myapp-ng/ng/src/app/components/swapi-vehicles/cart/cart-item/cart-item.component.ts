@@ -1,5 +1,5 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
-import { CommonModule, } from '@angular/common';
+import { Component, computed, inject, input, signal, ChangeDetectionStrategy } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CartItem } from '../cart';
 import { CartService } from '../cart.service';
@@ -13,19 +13,20 @@ import { MatSelectModule } from '@angular/material/select';
 @Component({
   selector: 'cart-item',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     MatCardModule,
     FormsModule,
     MatFormFieldModule,
     MatButtonModule,
     MatIconModule,
-    MatSelectModule
+    MatSelectModule,
   ],
   templateUrl: './cart-item.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./cart-item.component.scss'],
 })
 export class CartItemComponent {
-
   cartService = inject(CartService);
 
   // Use modern signal-based input
@@ -44,7 +45,6 @@ export class CartItemComponent {
 
   // When the item changes, recalculate the extended price
   exPrice = computed(() => this.item().quantity * this.price());
-
 
   onSelectionChange(quantity: number): void {
     // Update the quantity in the item through the service

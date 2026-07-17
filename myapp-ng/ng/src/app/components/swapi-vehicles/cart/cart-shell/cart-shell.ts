@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { CartList } from "../cart-list/cart-list";
-import { CartTotal } from "../cart-total/cart-total";
+import { CartList } from '../cart-list/cart-list';
+import { CartTotal } from '../cart-total/cart-total';
 
 @Component({
   selector: 'cart-shell',
@@ -9,16 +9,16 @@ import { CartTotal } from "../cart-total/cart-total";
   imports: [CartList, CartTotal],
   template: `
     <div class="content responsive-grid">
-      <div>        
+      <div>
         <div class="flex-row">
-            <cart-list ></cart-list>
-            <cart-total></cart-total>
+          <cart-list></cart-list>
+          <cart-total></cart-total>
         </div>
+      </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./cart-shell.scss'],
-  
 })
-export class CartShell {
-
-}1
+export class CartShell {}
+1;

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
@@ -11,7 +11,8 @@ import { CartService } from '../cart.service';
   standalone: true,
   imports: [CommonModule, RouterLink, MatCardModule, MatButtonModule, MatDividerModule],
   templateUrl: './cart-summary.html',
-  styleUrls: ['./cart-summary.scss']
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrls: ['./cart-summary.scss'],
 })
 export class CartSummary {
   cartService = inject(CartService);
