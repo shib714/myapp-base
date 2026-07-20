@@ -12,6 +12,7 @@ import { Theme } from '../theme';
 import { CartService } from '../../components/shopping-cart/cart/cart.service';
 import { MatBadgeModule } from '@angular/material/badge';
 
+
 @Component({
   selector: 'app-nav',
   imports: [
@@ -27,16 +28,19 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatBadgeModule,
   ],
   templateUrl: './nav.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './nav.scss',
 })
 export class Nav {
   private document = inject(DOCUMENT);
   protected themeService = inject(Theme);
   protected cartService = inject(CartService);
-  cartItems = this.cartService.cartItems;
+  cartCount = this.cartService.cartCount;
+
 
   onThemeChange(event: MatSlideToggleChange) {
     this.document.body.classList.toggle('dark');
   }
+
+
 }

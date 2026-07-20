@@ -5,10 +5,10 @@
         (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
     </button>
-    <span>Signal forms, Shopping Cart in Angular 21 with unit test </span>
+    <span>Signal forms, Shopping Cart in Angular 22 with unit test </span>
     <span class="nav-spacer"></span>
     <button mat-icon-button routerLink="cart">
-        <span matBadge="{{cartItems().length}}" matBadgePosition="after" matBadgeOverlap="false"
+        <span matBadge="{{cartCount()}}" matBadgePosition="after" matBadgeOverlap="false"
             matBadgeColor="primary"><mat-icon>shopping_cart</mat-icon></span>
     </button>
     <button mat-icon-button class="nav-icon" aria-label="nav icon-button with share icon">

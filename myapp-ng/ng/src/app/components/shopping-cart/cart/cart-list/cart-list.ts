@@ -13,21 +13,21 @@ import { CartSummary } from '../cart-summary/cart-summary';
     <div class="cart-page-container">
       <div class="cart-items-list">
         <h2>Your Shopping Cart</h2>
-        @if (cartItems().length === 0) {
+        @if (cartCount() === 0) {
           <p>Your shopping cart is empty.</p>
           <div class="empty-cart-actions">
-            <button mat-stroked-button color="primary" routerLink="/product-list">
+            <button mat-stroked-button color="primary" routerLink="/products">
               Start Shopping
             </button>
           </div>
         } @else {
-          <h2>Your shopping cart contains: {{ cartItems().length }} items.</h2>
+          <h2>Your shopping cart contains: {{ cartCount() }} items.</h2>
           @for (item of cartItems(); track item.product.id) {
             <cart-item [item]="item"></cart-item>
           }
         }
       </div>
-      @if (cartItems().length > 0) {
+      @if (cartCount()> 0) {
         <div class="cart-summary-container">
           <cart-summary></cart-summary>
         </div>
@@ -41,4 +41,5 @@ import { CartSummary } from '../cart-summary/cart-summary';
 export class CartList {
   cartService = inject(CartService);
   cartItems = this.cartService.cartItems;
+  cartCount = this.cartService.cartCount;
 }
