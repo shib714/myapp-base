@@ -1,27 +1,53 @@
-# Angular
-myapp-ng/ng/node/
-myapp-ng/ng/node/
-myapp-ng/ng/node_modules/
+############################
+# Angular (myapp-ng/ng)
+############################
+
+# Angular build + cache folders
 myapp-ng/ng/dist/
 myapp-ng/ng/.angular/
 myapp-ng/ng/.cache/
 myapp-ng/ng/.vite/
 myapp-ng/ng/.output/
+
+# Angular dependencies
+myapp-ng/ng/node_modules/
+
+# Angular OS junk
 myapp-ng/ng/.DS_Store
 
+############################
+# Maven (all modules)
+############################
+
+# Ignore ALL Maven target folders in every module
+**/target/
+
+############################
+# Node (accidental folder created earlier)
+############################
+
+# Ignore accidental Node installation created by Maven plugin
+myapp-ng/node/
+
+############################
 # Logs
+############################
+
 *.log
 
-# Maven
-target/
+############################
+# IDE / Workspace
+############################
 
-# IDE
 .classpath
 .project
 .settings/
 .idea/
 .vscode/
 
-# OS
+############################
+# OS junk
+############################
+
 Thumbs.db
 .DS_Store
