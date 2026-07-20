@@ -14,8 +14,38 @@
 	<artifactId>myapp-ng</artifactId>
 	<packaging>war</packaging>
 
+	<properties>
+		<skip.npm.install>false</skip.npm.install>
+		<force.npm.install>false</force.npm.install>
+	</properties>
+
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>check-node-modules</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<condition property="skip.npm.install">
+									<and>
+										<equals arg1="${force.npm.install}" arg2="false"/>
+										<available file="${project.basedir}/ng/node_modules" type="dir"/>
+										<available file="${project.basedir}/ng/package-lock.json" type="file"/>
+									</and>
+								</condition>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- 1. Node + npm + Angular build -->
 			<plugin>
 				<groupId>com.github.eirslett</groupId>
@@ -42,6 +72,7 @@
 						<configuration>
 							<workingDirectory>${project.basedir}/ng</workingDirectory>
 							<arguments>install --legacy-peer-deps</arguments>
+							<skip>${skip.npm.install}</skip>
 						</configuration>
 					</execution>
 					<execution>
