@@ -39,5 +39,9 @@ export const routes: Routes = [
             .then((m) => m.ComposableForm), title: 'Composable signal Form'
     },
 
-
+    {
+        path: '**',
+        redirectTo: 'home',
+        pathMatch: 'full'
+    }
 ];
