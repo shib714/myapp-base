@@ -6,6 +6,8 @@ import { IProduct } from '../products/product.service';
 })
 export class CartService {
 
+    private nextLineId = 1;
+
     // Manage state with signals
     cartItems = signal<CartItem[]>([]);
 
@@ -29,44 +31,50 @@ export class CartService {
     // Total price
     totalPrice = computed(() => this.subTotal() + this.deliveryFee() + this.tax());
 
+    private getProductIdentity(product: IProduct): string {
+        return [product.id, product.title, product.price, product.category, product.description, product.image]
+            .map(value => String(value))
+            .join('|');
+    }
+
+    private createCartItem(product: IProduct): CartItem {
+        return {
+            lineId: `line-${this.nextLineId++}`,
+            product,
+            quantity: 1
+        };
+    }
+
     // Add the product to the cart 
     // If the item is already in the cart, increase the quantity
     addToCart(product: IProduct): void {
-        // Check if the product is already in the cart
-        // Find the index of the product in the cart
-        const index = this.cartItems().findIndex(item => item.product.id === product.id);
-        // Not already in the cart, so add with default quantity of 1
+        const productIdentity = this.getProductIdentity(product);
+        const index = this.cartItems().findIndex(item => this.getProductIdentity(item.product) === productIdentity);
+
         if (index === -1) {
-            // Not already in the cart, so add with default quantity of 1
-            this.cartItems.update(items => [...items, { product, quantity: 1 }]);
+            this.cartItems.update(items => [...items, this.createCartItem(product)]);
         } else {
-            // Already in the cart, so increase the quantity by 1
-            //   this.cartItems.update(items =>
-            //     [
-            //       ...items.slice(0, index),
-            //       { ...items[index], quantity: items[index].quantity + 1 },
-            //       ...items.slice(index + 1)
-            //     ]);
             this.cartItems.update(items =>
                 items.map((item, i) =>
                     i === index ? { ...item, quantity: item.quantity + 1 } : item
                 )
-            )
+            );
         }
     }
     // Remove the item from the cart
     removeFromCart(cartItem: CartItem): void {
-        // Update the cart with a new array containing
-        // all but the filtered out deleted item
-        this.cartItems.update(items => items.filter(item =>
-            item.product.id !== cartItem.product.id));
+        this.cartItems.update(items => items.filter(item => item.lineId !== cartItem.lineId));
     }
+
     updateInCart(cartItem: CartItem, quantity: number) {
-        // Update the cart with a new array containing
-        // the updated item and all other original items
+        if (quantity <= 0) {
+            this.removeFromCart(cartItem);
+            return;
+        }
+
         this.cartItems.update(items =>
-            items.map(item => item.product.id === cartItem.product.id ?
-                { product: cartItem.product, quantity } : item));
+            items.map(item => item.lineId === cartItem.lineId ?
+                { ...item, quantity } : item));
     }
     clearCart() {
         this.cartItems.set([]);
@@ -80,6 +88,7 @@ export interface Cart {
 }
 
 export interface CartItem {
+    lineId: string;
     product: IProduct;
     quantity: number;
 }

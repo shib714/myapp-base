@@ -49,6 +49,17 @@ describe('CartService', () => {
     expect(service.cartItems()[0].quantity).toBe(2);
   });
 
+  it('should keep different products as separate rows when their identity is not the same', () => {
+    const similarProduct = { ...productA, title: 'A copy' };
+
+    service.addToCart(productA);
+    service.addToCart(similarProduct);
+
+    expect(service.cartItems().length).toBe(2);
+    expect(service.cartItems()[0].quantity).toBe(1);
+    expect(service.cartItems()[1].quantity).toBe(1);
+  });
+
   // ---------------------------------------------------------
   // removeFromCart
   // ---------------------------------------------------------

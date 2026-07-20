@@ -3,7 +3,7 @@ import { inject, Injectable, signal, computed, resource } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop"; 
 import { Film, Vehicle, VehicleResponse } from "./vehicle";
 import { map, shareReplay, catchError,  of } from "rxjs";
-import { environment } from "../../../environments/environment.prod";
+import { environment } from "../../../../environments/environment";
 
 
 @Injectable({

@@ -2,7 +2,7 @@ import { apply, applyWhen, debounce, disabled, minLength, required, schema, vali
 
 import { userNameSchema } from "./userNameSchema";
 import { UserService } from "./user.service";
-import { environment } from "../../../environments/environment.prod";
+import { environment } from "../../../../environments/environment";
 
 
 export interface Profile {

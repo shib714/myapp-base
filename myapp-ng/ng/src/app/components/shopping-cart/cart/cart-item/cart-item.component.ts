@@ -16,7 +16,6 @@ import { MatIconModule } from '@angular/material/icon';
   selector: 'cart-item',
   imports: [CommonModule, MatButtonModule, MatIconModule],
   templateUrl: './cart-item.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./cart-item.component.scss'],
 })
 export class CartItemComponent {

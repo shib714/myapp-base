@@ -22,7 +22,7 @@ import { CartSummary } from '../cart-summary/cart-summary';
           </div>
         } @else {
           <h2>Your shopping cart contains: {{ cartCount() }} items.</h2>
-          @for (item of cartItems(); track item.product.id) {
+          @for (item of cartItems(); track item.lineId) {
             <cart-item [item]="item"></cart-item>
           }
         }
