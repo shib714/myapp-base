@@ -43,11 +43,16 @@ myapp-ng/ng/.DS_Store
 # IDE / Workspace
 ############################
 
-.classpath
-.project
-.settings/
-.idea/
-.vscode/
+**/.classpath
+**/.project
+**/.settings/
+**/.metadata/
+**/.idea/
+**/.vscode/
+
+# Keep Eclipse component metadata out of version control
+myapp-ejb/.settings/org.eclipse.wst.common.component
+myapp-rest/.settings/org.eclipse.wst.common.component
 
 ############################
 # OS junk
