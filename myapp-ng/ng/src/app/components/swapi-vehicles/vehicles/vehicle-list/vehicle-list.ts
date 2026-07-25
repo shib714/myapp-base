@@ -39,7 +39,7 @@ import { VehicleDetailDialog } from '../vehicle-detail/vehicle-detail-dialog';
       <div class="alert alert-danger">{{ errorMessage() }}</div>
     }
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     .active {
       background-color: rgba(0, 0, 0, 0.04);

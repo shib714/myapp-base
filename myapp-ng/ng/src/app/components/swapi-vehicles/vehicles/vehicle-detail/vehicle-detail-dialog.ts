@@ -2,7 +2,6 @@ import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/c
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { catchError, EMPTY, map } from 'rxjs';
 import { CartService } from '../../cart/cart.service';
 
 import { CommonModule } from '@angular/common';
@@ -15,7 +14,7 @@ import { VehicleService } from '../vehicle.service';
   templateUrl: './vehicle-detail-dialog.html',
   styleUrls: ['./vehicle-detail-dialog.scss'],
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatDialogModule, MatButtonModule, MatGridListModule, CommonModule, MatCardModule],
 })
 export class VehicleDetailDialog {
@@ -26,7 +25,7 @@ export class VehicleDetailDialog {
   vehicle = this.vehicleService.selectedVehicle;
 
   pageTitle = computed(() =>
-    this.vehicle() ? `Detail for: ${this.vehicle()?.name}` : 'No vehicle selected',
+    this.vehicle() ? `${this.vehicle()?.name}` : 'No vehicle selected',
   );
 
   vehicleFilms = this.vehicleService.vehicleFilms;

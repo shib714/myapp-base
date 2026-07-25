@@ -36,7 +36,7 @@ import { CartService } from '../cart/cart.service';
       </div>
     </div>
   `,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: ``,
 })
 export class VehiclesApp {
