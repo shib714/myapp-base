@@ -1,139 +1,188 @@
-- myapp-base
+# myapp-base
 
--A full-stack enterprise application built with Java EE, EJB, JAX-RS, Angular 21, and packaged as a WebLogic EAR. This repository contains all modules required to build and deploy the complete application.
+myapp-base is a full-stack enterprise application built with a Maven multi-module architecture. It combines Java EE backend services, a REST API, and an Angular frontend into a deployable WebLogic EAR package.
 
-- Project Structure
+## Architecture Overview
 
+The project is organized as a parent Maven build with four modules:
+
+```text
 myapp-base/
-│
-├── myapp-ejb/        # EJB module (business logic)
-├── myapp-rest/       # JAX-RS REST API module
-├── myapp-ng/         # Angular 21 frontend (packaged as WAR)
-│   └── ng/           # Angular workspace
-│       ├── src/
-│       ├── dist/
-│       └── node_modules/
-│
-├── myapp-ear/        # EAR packaging module (deployable to WebLogic)
-│
-└── pom.xml           # Parent Maven POM (multi-module)
-🚀 Features
-Backend (Java EE)
-EJB-based business services
+├── myapp-ejb/        # EJB module for business logic and persistence
+├── myapp-rest/       # JAX-RS REST layer
+├── myapp-ng/         # Angular web application packaged as a WAR
+│   └── ng/           # Angular workspace and source files
+├── myapp-ear/        # EAR packaging module for deployment
+└── pom.xml           # Parent Maven build definition
+```
 
-JAX-RS REST API (/myapp/rest/api/...)
+### Modules and responsibilities
 
-WebLogic-compatible EAR packaging
+- myapp-ejb
+  - Contains EJB services and persistence-oriented business logic.
+  - Uses Java EE APIs such as EJB and JPA.
 
-JDBC datasource integration Using JPA 
+- myapp-rest
+  - Exposes REST endpoints through JAX-RS.
+  - Depends on the EJB module and serves API traffic for the frontend.
 
-Frontend (Angular 21)
-Modern Angular standalone components
+- myapp-ng
+  - Hosts the Angular frontend application.
+  - Uses Angular 22 with standalone components, routing, SCSS, and TypeScript.
+  - The Angular build is packaged into the WAR for deployment.
 
-Angular routing (/myapp/ng/...)
+- myapp-ear
+  - Packages the EJB, REST, and Angular web modules into a single EAR artifact for WebLogic.
 
-Production build packaged as WAR
+## Technologies Used
 
-Served through WebLogic
+### Backend
+- Java 21
+- Maven 3.x
+- Java EE 8 APIs via javax.* packages
+- EJB 3.2
+- JPA 2.2
+- JAX-RS 2.1.1
+- Jersey 2.45
+- WebLogic-compatible EAR packaging
 
-🔧 Build Instructions
-1. Clone the repository
-bash
-git clone https://github.com/shib714/myapp-base.git
+### Frontend
+- Angular 22
+- Angular CLI
+- TypeScript 6.x
+- RxJS
+- SCSS
+- Vitest for testing
+
+### Build and Dev Tools
+- Maven frontend plugin for Node/npm provisioning
+- Node.js 24.x and npm 11.x during Maven builds
+- Angular development server with a proxy configuration for local API calls
+
+## Prerequisites
+
+Before building or running the project, make sure you have:
+
+- Java 21 or later
+- Maven 3.9+
+- Node.js and npm (optional for local Angular development; Maven can provision them automatically)
+- A WebLogic server instance (for deployment)
+
+## Quick Start
+
+### 1) Clone the repository
+
+```bash
+git clone <repository-url>
 cd myapp-base
-2. Build the entire project
-bash
+```
+
+### 2) Build the full application
+
+```bash
 mvn clean package
+```
+
 This will:
+- install Node/npm through the Maven frontend plugin,
+- install Angular dependencies,
+- build the Angular app,
+- package the frontend into a WAR,
+- assemble the final EAR artifact,
+- run the Maven Antrun step that copies the EAR into the WebLogic autodeploy directory configured in the parent POM.
 
-Install Node & npm
+The packaged EAR will be created at:
 
-Run npm install inside myapp-ng/ng
-
-Build Angular (ng build)
-
-Package Angular output into a WAR
-
-Package backend modules
-
-Produce a final EAR under:
-
-Code
-- myapp-ear/target/myapp-ear-1.0.0-SNAPSHOT.ear
-📦 Deployment (WebLogic)
-Log in to WebLogic Console
-
-Deploy the EAR file:
-
-Code
+```text
 myapp-ear/target/myapp-ear-1.0.0-SNAPSHOT.ear
-Ensure the context roots:
+```
 
-REST API → /myapp/rest/api
+### 3) Run the Angular frontend locally
 
-Angular → /myapp/ng
+```bash
+cd myapp-ng/ng
+npm install
+npm start
+```
 
-🌐 Application URLs
-Angular Frontend
-Code
-http://localhost:7001/myapp/ng
-REST API
-Code
-http://localhost:7001/myapp/rest/api/products
-Example Product
-Code
-http://localhost:7001/myapp/rest/api/products/1
-🗂️ .gitignore (Important)
-This project uses a multi-module structure.
-The following folders must NOT be committed:
+Then open:
 
-Code
-# Angular
-myapp-ng/ng/node_modules/
-myapp-ng/ng/dist/
-myapp-ng/ng/.angular/
-myapp-ng/ng/.cache/
+```text
+http://localhost:4200
+```
 
-# Maven
-target/
+The Angular app is configured to proxy API requests to the backend via the settings in [myapp-ng/ng/proxy.conf.json](myapp-ng/ng/proxy.conf.json).
 
-# IDE
-.classpath
-.project
-.settings/
-.idea/
-.vscode/
+### 4) Deploy to WebLogic
 
-# OS
-Thumbs.db
-.DS_Store
-If these folders were already committed, remove them from Git tracking:
+Deploy the EAR artifact from the target folder to a WebLogic domain. After deployment, the application is typically available at:
 
-bash
-git rm -r --cached myapp-ng/ng/node_modules
-git rm -r --cached myapp-ng/ng/dist
-git rm -r --cached myapp-ng/ng/.angular
-git rm -r --cached myapp-ng/ng/.cache
-git commit -m "Clean up ignored files"
-git push
-🧪 Testing
-Backend
-Run JUnit tests via Maven:
+- Frontend: `/myapp/ng`
+- REST API: `/myapp/rest/api`
 
-bash
+## Local Development Notes
+
+- The Angular app is intended to be served locally with the dev server while the backend is available through the deployed WebLogic environment.
+- The frontend proxy configuration forwards `/rest` requests to the WebLogic context root at `http://localhost:7001/myapp`.
+
+## API Endpoints
+
+The REST API is exposed from the myapp-rest module and is typically served under the WebLogic context root:
+
+```text
+/myapp/rest/api
+```
+
+### Current endpoint patterns
+
+- `GET /myapp/rest/api/products`
+  - Returns the list of products.
+- `GET /myapp/rest/api/products/{id}`
+  - Returns a single product by ID.
+- `POST /myapp/rest/api/products`
+  - Creates a new product.
+- `PUT /myapp/rest/api/products/{id}`
+  - Updates an existing product.
+- `DELETE /myapp/rest/api/products/{id}`
+  - Deletes a product by ID.
+
+> The exact request and response payloads depend on the current implementation in the REST layer.
+
+## Testing
+
+### Backend tests
+
+```bash
 mvn test
-Frontend
-Inside myapp-ng/ng:
+```
 
-bash
+### Frontend tests
+
+```bash
+cd myapp-ng/ng
 npm test
-📁 Angular Build Output Structure
-Angular 21 outputs production files to:
+```
 
-Code
+## Build Output
+
+The Angular production build is emitted to:
+
+```text
 myapp-ng/ng/dist/myapp-ng/browser/
-This folder is packaged directly into the WAR root.
+```
 
-🤝 Contributing
-Pull requests are welcome.
-For major changes, please open an issue first to discuss what you would like to modify.
+That output is packaged into the WAR artifact for deployment.
+
+## Git Ignore Notes
+
+Generated artifacts, build output, dependencies, and IDE files are ignored to keep the repository clean. Common ignored paths include:
+
+- `myapp-ng/ng/node_modules/`
+- `myapp-ng/ng/dist/`
+- `myapp-ng/ng/.angular/`
+- `**/target/`
+- `.classpath`, `.project`, `.settings/`, `.idea/`, `.vscode/`
+
+## Contributing
+
+Pull requests are welcome. For significant changes, please open an issue first to discuss the proposed update.
