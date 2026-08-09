@@ -16,10 +16,11 @@ import { ProductList } from './products/product-list/product-list';
 import { CartList } from './cart/cart-list/cart-list';
 import { CartService } from './cart/cart.service';
 import { ProductService, IProduct } from './products/product.service';
-import { environment } from '../../environments/env.dev';
+
 import { By } from '@angular/platform-browser';
 
 import { provideRouter } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 describe('Shopping Cart Integration', () => {
     let cartService: CartService;
@@ -69,7 +70,7 @@ describe('Shopping Cart Integration', () => {
             fixture.detectChanges();
 
             // Mock the HTTP call for products
-            const req = httpMock.expectOne(environment.PRODUCTS_URL);
+            const req = httpMock.expectOne(environment.BASE_URL);
             req.flush(mockProducts);
             fixture.detectChanges();
 

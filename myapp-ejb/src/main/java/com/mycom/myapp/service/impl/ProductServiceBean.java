@@ -9,7 +9,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-
 @Stateless
 public class ProductServiceBean implements ProductService {
 
@@ -28,9 +27,15 @@ public class ProductServiceBean implements ProductService {
     }
 
     @Override
+    public List<Product> findByCategory(String category) {
+        return em.createQuery("SELECT p FROM Product p WHERE p.category = :category", Product.class)
+                .setParameter("category", category)
+                .getResultList();
+    }
+
     public List<Product> findAll() {
         return em.createQuery("SELECT p FROM Product p", Product.class)
-                 .getResultList();
+                .getResultList();
     }
 
     @Override
