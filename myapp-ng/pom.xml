@@ -36,9 +36,11 @@
 							<target>
 								<condition property="skip.npm.install">
 									<and>
-										<equals arg1="${force.npm.install}" arg2="false"/>
-										<available file="${project.basedir}/ng/node_modules" type="dir"/>
-										<available file="${project.basedir}/ng/package-lock.json" type="file"/>
+										<equals arg1="${force.npm.install}" arg2="false" />
+										<available file="${project.basedir}/ng/node_modules"
+											type="dir" />
+										<available file="${project.basedir}/ng/package-lock.json"
+											type="file" />
 									</and>
 								</condition>
 							</target>
@@ -76,11 +78,11 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>npm build</id>
+						<id>npm-build</id>
+						<phase>generate-resources</phase>
 						<goals>
 							<goal>npm</goal>
 						</goals>
-						<phase>generate-resources</phase>
 						<configuration>
 							<workingDirectory>${project.basedir}/ng</workingDirectory>
 							<arguments>run build</arguments>
