@@ -33,6 +33,14 @@ public class ProductResource {
 		return productService.find(id);
 	}
 
+	@GET
+	@Path("category/{category}")
+	public List<Product> getByCategory(@PathParam("category") String category) {
+		System.out.println("DEBUG: ProductResource.getByCategory() called");
+		System.out.println("DEBUG VERSION 2");
+		return productService.findByCategory(category);
+	}
+
 	@POST
 	public Product create(Product product) {
 		return productService.create(product);

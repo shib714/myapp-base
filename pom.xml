@@ -24,11 +24,18 @@
 		<javax.ws.rs.version>2.1.1</javax.ws.rs.version>
 		<jersey.version>2.45</jersey.version>
 
-		<!--Plugin versions-->
+		<junit.jupiter.version>5.10.2</junit.jupiter.version>
+		<mockito.version>5.10.0</mockito.version>
+		<surefire.plugin.version>3.2.5</surefire.plugin.version>
+		<failsafe.plugin.version>3.2.5</failsafe.plugin.version>
+		<jacoco.plugin.version>0.8.11</jacoco.plugin.version>
+
+		<!--Plugin
+		versions-->
 		<maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
 		<maven-war.plugin.version>3.4.0</maven-war.plugin.version>
 		<maven-ear.plugin.version>3.2.0</maven-ear.plugin.version>
-		<frontend-maven-plugin.version>1.14.2</frontend-maven-plugin.version>	
+		<frontend-maven-plugin.version>1.14.2</frontend-maven-plugin.version>
 		<maven-antrun-plugin.version>3.1.0</maven-antrun-plugin.version>
 	</properties>
 
@@ -92,6 +99,25 @@
 				<artifactId>jersey-container-servlet</artifactId>
 				<version>${jersey.version}</version>
 			</dependency>
+			<!-- Unit Testing Dependencies -->
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter</artifactId>
+				<version>${junit.jupiter.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-core</artifactId>
+				<version>${mockito.version}</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.mockito</groupId>
+				<artifactId>mockito-junit-jupiter</artifactId>
+				<version>${mockito.version}</version>
+				<scope>test</scope>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
@@ -105,6 +131,49 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>${maven.compiler.plugin.version}</version>
+				</plugin>
+				<!-- Surefire Unit Test Plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${surefire.plugin.version}</version>
+				</plugin>
+
+				<!-- Failsafe Integration Test Plugin -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-failsafe-plugin</artifactId>
+					<version>${failsafe.plugin.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>integration-test</goal>
+								<goal>verify</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<!-- JaCoCo Code Coverage Plugin -->
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco.plugin.version}</version>
+					<executions>
+						<execution>
+							<id>prepare-agent</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+						<execution>
+							<id>report</id>
+							<phase>test</phase>
+							<goals>
+								<goal>report</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 
 				<!-- WAR plugin (used by REST + Angular modules) -->

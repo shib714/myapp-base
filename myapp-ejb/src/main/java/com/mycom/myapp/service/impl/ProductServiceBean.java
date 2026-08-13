@@ -2,12 +2,12 @@ package com.mycom.myapp.service.impl;
 
 import java.util.List;
 
-import com.mycom.myapp.entity.Product;
-import com.mycom.myapp.service.ProductService;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import com.mycom.myapp.entity.Product;
+import com.mycom.myapp.service.ProductService;
 
 @Stateless
 public class ProductServiceBean implements ProductService {
@@ -28,11 +28,13 @@ public class ProductServiceBean implements ProductService {
 
     @Override
     public List<Product> findByCategory(String category) {
+        System.out.println("DEBUG INSIDE EJB METHOD: ProductServiceBean.findByCategory() called");
         return em.createQuery("SELECT p FROM Product p WHERE p.category = :category", Product.class)
                 .setParameter("category", category)
                 .getResultList();
     }
 
+    @Override
     public List<Product> findAll() {
         return em.createQuery("SELECT p FROM Product p", Product.class)
                 .getResultList();
