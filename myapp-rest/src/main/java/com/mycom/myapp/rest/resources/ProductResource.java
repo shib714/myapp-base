@@ -32,7 +32,7 @@ public class ProductResource {
 	public Product getById(@PathParam("id") Long id) {
 		return productService.find(id);
 	}
-
+	//http://localhost:7001/myapp/rest/api/products/category/electronics
 	@GET
 	@Path("category/{category}")
 	public List<Product> getByCategory(@PathParam("category") String category) {
